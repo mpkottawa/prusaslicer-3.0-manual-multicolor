@@ -1,0 +1,50 @@
+<div id="tab_plugin_manual_multicolor_ps3" class="ps3-manual-colour-prompts-tab">
+  <h3>PS3 Manual Multicolor</h3>
+  <p class="muted"><a href="https://github.com/mpkottawa/prusaslicer-3.0-manual-multicolor" target="_blank" rel="noopener noreferrer">Source and releases</a> · AGPLv3</p>
+  <div class="ps3-manual-colour-update">
+    <button type="button" class="btn" data-bind="click: openPluginUpdate, enable: canUpdatePlugin, attr: { title: updateBlockedReason() || 'Choose a plugin ZIP using OctoPrint Plugin Manager' }"><i class="fas fa-upload" aria-hidden="true"></i> Update plugin…</button>
+    <span class="muted" data-bind="text: updateBlockedReason"></span>
+    <p role="status" aria-live="polite" data-bind="visible: updateMessage, text: updateMessage"></p>
+  </div>
+  <p class="muted">Companion {{ plugin_manual_multicolor_ps3_release_label }} · Targets PrusaSlicer {{ plugin_manual_multicolor_ps3_slicer_target }}</p>
+  <p class="muted" data-bind="text: tabStatus">Start a ps3-manual-colour print to load its change plan.</p>
+  <div class="ps3-manual-colour-now" role="status" aria-live="polite" data-bind="text: activeLabel, style: { backgroundColor: bulbColour, color: activeTextColour }, css: { 'is-flashing': bulbFlashing }, attr: { title: bulbTitle }"></div>
+  <div class="ps3-manual-colour-slot-bar" data-bind="foreach: fileColours" aria-label="File filament slots">
+    <span class="ps3-manual-colour-slot" data-bind="text: label, style: { backgroundColor: swatch, color: textColour }, css: { 'is-flashing': flashing, 'is-current': current, 'is-unused': unused }, attr: { title: title, 'aria-label': title }"></span>
+  </div>
+  <p class="muted">Flashing follows sent commands: current colour while printing; requested colour when M600 is sent. Nozzle parking is not confirmed.</p>
+  <div class="ps3-manual-colour-progress">
+    <div class="bar" data-bind="style: { width: progressPercent }"></div>
+  </div>
+  <p>
+    <strong>Initial filament:</strong> <span data-bind="text: initialColour"></span>
+    &nbsp;&nbsp; <strong>Next:</strong> <span data-bind="text: nextColour"></span>
+  </p>
+  <section class="ps3-manual-colour-layer-plan" data-bind="visible: profileDetected">
+    <p>Used colours: <span data-bind="foreach: usedColours"><span class="ps3-manual-colour-used"><span class="ps3-manual-colour-swatch" data-bind="style: { backgroundColor: swatch }"></span><span data-bind="text: label"></span></span></span></p>
+    <h4>Layer colour sequence</h4>
+    <p class="muted">All layers are shown, bottom to top. Single-colour layers are compact; colour-change rows print left to right. No scrolling inside the sequence.</p>
+    <div class="ps3-manual-colour-layer-grid" data-bind="foreach: layerRows">
+      <div class="ps3-manual-colour-layer-row" data-bind="css: { current: current, 'single-colour': singleColour }">
+        <span class="ps3-manual-colour-layer-label" data-bind="text: label"></span>
+        <span class="ps3-manual-colour-layer-cells" data-bind="foreach: colours">
+          <span class="ps3-manual-colour-layer-cell" data-bind="css: { active: active, requested: requested }, style: { backgroundColor: swatch, color: textColour }, attr: { title: title }">
+            <span data-bind="text: colour"></span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </section>
+  <table class="table table-condensed table-hover">
+    <thead><tr><th>#</th><th>Layer / height</th><th>Load</th><th>Status</th></tr></thead>
+    <tbody data-bind="foreach: schedule">
+      <tr data-bind="css: { success: $data.changeNumber < $parent.currentChange(), warning: $data.changeNumber === $parent.currentChange() }">
+        <td data-bind="text: number"></td>
+        <td data-bind="text: layerText"></td>
+        <td><span class="ps3-manual-colour-swatch" data-bind="style: { backgroundColor: swatch }"></span><span data-bind="text: colour"></span></td>
+        <td data-bind="text: status"></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="muted">Informational only: progress follows commands sent, not verified printer completion. Complete each filament change on the printer screen. Upload the processed -manual.gcode file, not the original export.</p>
+</div>

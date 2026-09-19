@@ -1,0 +1,12 @@
+{
+  "version": "3.11A.08",
+  "octoprint_version": "3.11a8",
+  "lua_version": "3.11.8",
+  "prusaslicer_target": "3.0.0-alpha11",
+  "prusa_preset_repository": "1.0.18",
+  "platform": "Windows / Windows PowerShell 5.1",
+  "example_hardware": "Prusa MK4S MMU3 0.4 HF",
+  "physical_validation": "Owner reported a successful MK4S 0.4 HF print on 2026-09-19 using the preceding working installation.",
+  "octoprint_frontend_reference": "1.11.3",
+  "octoprint_live_version": "not recorded"
+}

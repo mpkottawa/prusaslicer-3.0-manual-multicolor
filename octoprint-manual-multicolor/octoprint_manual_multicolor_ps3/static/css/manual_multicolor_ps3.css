@@ -1,0 +1,34 @@
+.ps3-manual-colour-prompts-navbar > a { padding-left: 8px !important; padding-right: 8px !important; }
+.ps3-manual-colour-bulb { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.9); border-radius: 50%; background: #777; box-shadow: 0 0 3px rgba(0,0,0,.6); vertical-align: middle; }
+.ps3-manual-colour-bulb.is-flashing { animation: ps3-manual-colour-pulse .8s ease-in-out infinite alternate; }
+@keyframes ps3-manual-colour-pulse { from { opacity: .35; box-shadow: 0 0 2px currentColor; } to { opacity: 1; box-shadow: 0 0 12px 5px currentColor; } }
+.ps3-manual-colour-progress { height: 18px; background: #e5e5e5; border-radius: 3px; overflow: hidden; margin: 8px 0 16px; }
+.ps3-manual-colour-progress .bar { height: 100%; background: #f28c28; transition: width 160ms ease-out; }
+.ps3-manual-colour-swatch { display: inline-block; width: 14px; height: 14px; border: 1px solid #555; margin-right: 7px; vertical-align: -2px; }
+.ps3-manual-colour-layer-plan { margin: 18px 0 22px; }
+#tab_plugin_manual_multicolor_ps3 .ps3-manual-colour-layer-grid { height: auto; max-height: none; display: flex; flex-direction: column; overflow: visible; border: 1px solid #777; background: #222; padding: 0; }
+.ps3-manual-colour-layer-row { display: flex; flex: 0 0 auto; min-height: 28px; overflow: hidden; position: relative; }
+.ps3-manual-colour-layer-row + .ps3-manual-colour-layer-row { border-top: 1px solid #000; box-sizing: border-box; }
+.ps3-manual-colour-layer-row.single-colour { min-height: 16px; }
+.ps3-manual-colour-layer-row.single-colour .ps3-manual-colour-layer-cell { font-size: 10px; }
+.ps3-manual-colour-layer-row.current { outline: 2px solid #f28c28; outline-offset: -2px; }
+.ps3-manual-colour-layer-grid .ps3-manual-colour-layer-label { display: flex; align-items: center; padding: 0 7px; font-size: 11px; line-height: 1; }
+.ps3-manual-colour-layer-grid .ps3-manual-colour-layer-cell { padding: 0 3px; min-width: 0; line-height: 1; }
+.ps3-manual-colour-used { display: inline-block; margin-right: 12px; }
+.ps3-manual-colour-layer-label { box-sizing: border-box; flex: 0 0 48px; padding: 3px 7px; background: #eee; color: #222; border-right: 1px solid #777; font-weight: bold; }
+.ps3-manual-colour-layer-cells { display: flex; flex: 1 1 auto; min-width: 0; }
+.ps3-manual-colour-layer-cell { box-sizing: border-box; display: flex; align-items: center; justify-content: center; flex: 1 1 0; min-width: 24px; padding: 3px 5px; border-right: 1px solid rgba(255,255,255,.5); font-size: 11px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ps3-manual-colour-layer-cell:last-child { border-right: 0; }
+.ps3-manual-colour-layer-cell.active { outline: 3px solid #ff8c00; outline-offset: -3px; box-shadow: inset 0 0 0 1px #fff; }
+.ps3-manual-colour-layer-cell.requested { animation: ps3-manual-colour-cell-pulse .65s ease-in-out infinite alternate; }
+@keyframes ps3-manual-colour-cell-pulse { from { opacity: .35; } to { opacity: 1; box-shadow: inset 0 0 0 3px #ff8c00, 0 0 10px #ff8c00; } }
+.ps3-manual-colour-slot-bar { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.ps3-manual-colour-slot { position: relative; display: inline-block; padding: 4px 8px; margin: 2px; border: 2px solid #777; border-radius: 3px; font-size: 13px; line-height: 18px; font-weight: bold; }
+.ps3-manual-colour-slot.is-unused::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to top right, transparent calc(50% - 2px), #e00000 calc(50% - 2px), #e00000 calc(50% + 2px), transparent calc(50% + 2px)), linear-gradient(to bottom right, transparent calc(50% - 2px), #e00000 calc(50% - 2px), #e00000 calc(50% + 2px), transparent calc(50% + 2px)); }
+.ps3-manual-colour-slot.is-current { border-color: #fff; outline: 2px solid #ff8c00; }
+.ps3-manual-colour-slot.is-flashing { animation: ps3-manual-colour-attention .9s ease-in-out infinite alternate; }
+#ps3-manual-colour-navbar-slots { display: inline-flex; flex-wrap: wrap; max-width: 45vw; vertical-align: middle; }
+.ps3-manual-colour-now { display: inline-block; box-sizing: border-box; padding: 7px 12px; margin: 6px 8px 6px 2px; border: 3px solid #fff; outline: 2px solid #111; border-radius: 5px; background: #444; color: #fff; font-size: 18px; line-height: 24px; font-weight: bold; text-shadow: none; vertical-align: middle; }
+.ps3-manual-colour-now.is-flashing { animation: ps3-manual-colour-attention .9s ease-in-out infinite alternate; }
+@keyframes ps3-manual-colour-attention { from { box-shadow: 0 0 0 2px #111; border-color: #fff; } to { box-shadow: 0 0 0 4px #ff8c00, 0 0 14px 5px #ff8c00; border-color: #ffdf00; } }
+@media (prefers-reduced-motion: reduce) { .ps3-manual-colour-now.is-flashing, .ps3-manual-colour-slot.is-flashing { animation: none; box-shadow: 0 0 0 4px #ff8c00; } }

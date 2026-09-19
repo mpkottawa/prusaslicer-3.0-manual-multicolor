@@ -1,0 +1,21 @@
+kind: print
+id: b19aed6b-a3b2-4ea3-98c7-dcc4dc11fbb2
+variants:
+  - condition: ((((tool.nozzle_diameter == 0.4) and (printer.base_model == "MK4")) and tool.nozzle_high_flow) and (printer.model =~ /(MK4S|MK3.9S)/))
+    id: 9d3e0e42-f522-4202-bb7c-6834296726f7
+    name: manual multicolor 2.0
+    unconditional_inherits:
+      - aUfM3YhaQze++3IMjtpLWg
+    values:
+      bottom_solid_layers: 4
+      fill_density: 20%
+      fill_pattern: cubic
+      first_layer_solid_infill_speed: 80.000000
+      only_one_perimeter_first_layer: true
+      output_filename_format: '{input_filename_base} MK4S MM.gcode'
+      top_one_perimeter_type: topmost
+      top_solid_layers: 6
+      wipe_tower: false
+    features:
+      based_id: aUfM3YhaQze++3IMjtpLWg
+      based_root_id: zGbKiYiTSXWPe28oGuRD+A

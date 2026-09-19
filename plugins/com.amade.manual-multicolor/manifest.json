@@ -1,0 +1,13 @@
+{
+  "id": "com.amade.manual-multicolor",
+  "name": "Manual Multicolor",
+  "version": "3.11.8",
+  "min_slicer_version": "3.0.0-alpha11",
+  "author": "amade",
+  "license": "MIT",
+  "description": "Visual planning and diagnostics for manual same-layer multicolor printing on single-nozzle printers.",
+  "category": "Multicolor",
+  "required_apis": {
+    "project.plugin": "1.0.0"
+  }
+}

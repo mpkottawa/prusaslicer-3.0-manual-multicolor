@@ -1,0 +1,176 @@
+kind: printer
+id: 24d46ef5-1d6a-4de5-93af-69ad7f0433ce
+variants:
+  - condition: (((((tool.nozzle_diameter == 0.4) and (feeder.base_model == "MMU3")) and not feeder.single_mode) and (printer.model == "MK4S")) and (printer.base_model == "MK4"))
+    id: 8817444a-813f-4d26-9f67-9e070a03d1a5
+    name: MK4S manual multicolor
+    unconditional_inherits:
+      - sDaINpExS2qxgbDnvceoEA
+    values:
+      binary_gcode: false
+      end_gcode: '{if layer_z < max_print_height}G1 Z{z_offset+min(max_layer_z+1, max_print_height)} F720 ; Move print head up{endif}
+
+        M104 S0 ; turn off temperature
+
+        M140 S0 ; turn off heatbed
+
+        M107 ; turn off fan
+
+        G1 X241 Y170 F3600 ; park
+
+        {if layer_z < max_print_height}G1 Z{z_offset+min(max_layer_z+23, max_print_height)} F300 ; Move print head up{endif}
+
+        G4 ; wait
+
+        M572 S0 ; reset PA
+
+        M593 X T2 F0 ; disable IS
+
+        M593 Y T2 F0 ; disable IS
+
+        M84 X Y E ; disable motors
+
+        ; max_layer_z = [max_layer_z]'
+      start_gcode: '; MANUAL_COLOUR_BOTTOM_LAYERS=2
+
+        ; MANUAL_COLOUR_TOP_LAYERS=2
+
+        ; MANUAL_COLOUR_EXPORT_CONFIRM=1
+
+
+        M17 ; enable steppers
+
+        M862.1 P[nozzle_diameter] A{(filament_abrasive[0] ? 1 : 0)} F{(nozzle_high_flow[0] ? 1 : 0)} ; nozzle check
+
+        M862.3 P "MK4S" ; printer model check
+
+        M862.5 P2 ; g-code level check
+
+        M862.6 P"Input shaper" ; FW feature check
+
+        M115 U6.4.0+11974
+
+
+        M555 X{(min(print_bed_max[0], first_layer_print_min[0] + 32) - 32)} Y{(max(0, first_layer_print_min[1]) - 4)} W{((min(print_bed_max[0], max(first_layer_print_min[0] + 32, first_layer_print_max[0])))) - ((min(print_bed_max[0], first_layer_print_min[0] + 32) - 32))} H{((first_layer_print_max[1])) - ((max(0, first_layer_print_min[1]) - 4))}
+
+
+        G90 ; use absolute coordinates
+
+        M83 ; extruder relative mode
+
+
+        M140 S[first_layer_bed_temperature] ; set bed temp
+
+        M104 T0 S{((filament_notes[0]=~/.*MBL160.*/) ? 160 : (filament_notes[0]=~/.*HT_MBL10.*/) ? (first_layer_temperature[0] - 10) : (filament_type[0] == "PC" or filament_type[0] == "PA") ? (first_layer_temperature[0] - 25) : (filament_type[0]=~/(FLEX|TPU|TPE)/) ? 210 : (filament_type[0]=~/.*PET.*/) ? 175 : 170)} ; set extruder temp for bed leveling
+
+        M109 T0 R{((filament_notes[0]=~/.*MBL160.*/) ? 160 : (filament_notes[0]=~/.*HT_MBL10.*/) ? (first_layer_temperature[0] - 10) : (filament_type[0] == "PC" or filament_type[0] == "PA") ? (first_layer_temperature[0] - 25) : (filament_type[0]=~/(FLEX|TPU|TPE)/) ? 210 : (filament_type[0]=~/.*PET.*/) ? 175 : 170)} ; wait for temp
+
+
+        M84 E ; turn off E motor
+
+
+        G28 ; home all without mesh bed level
+
+
+        G1 X42 Y-4 Z5 F4800
+
+
+        M302 S155 ; lower cold extrusion limit to 155C
+
+
+        {if filament_type[initial_tool]=="FLEX"}
+
+        G1 E-4 F2400 ; retraction
+
+        {else}
+
+        G1 E-2 F2400 ; retraction
+
+        {endif}
+
+
+        M84 E ; turn off E motor
+
+
+        G29 P9 X10 Y-4 W32 H4
+
+
+        {if first_layer_bed_temperature[initial_tool]<=60}M106 S100{endif}
+
+
+        G0 Z40 F10000
+
+
+        M190 S[first_layer_bed_temperature] ; wait for bed temp
+
+
+        M107
+
+
+        ;
+
+        ; MBL
+
+        ;
+
+        M84 E ; turn off E motor
+
+        G29 P1 ; invalidate mbl & probe print area
+
+        G29 P1 X0 Y0 W50 H20 C ; probe near purge place
+
+        G29 P3.2 ; interpolate mbl probes
+
+        G29 P3.13 ; extrapolate mbl outside probe area
+
+        G29 A ; activate mbl
+
+
+        ; prepare for purge
+
+        M104 S{first_layer_temperature[0]}
+
+        G0 X0 Y-4 Z15 F4800 ; move away and ready for the purge
+
+        M109 S{first_layer_temperature[0]}
+
+
+        G92 E0
+
+        M569 S0 E ; set spreadcycle mode for extruder
+
+
+        ;
+
+        ; Extrude purge line
+
+        ;
+
+        G92 E0 ; reset extruder position
+
+        G1 E{(filament_type[0] == "FLEX" ? 4 : 2)} F2400 ; deretraction after the initial one before nozzle cleaning
+
+        G0 E7 X15 Z0.2 F500 ; purge
+
+        G0 X25 E4 F500 ; purge
+
+        G0 X35 E4 F650 ; purge
+
+        G0 X45 E4 F800 ; purge
+
+        G0 X48 Z0.05 F8000 ; wipe, move close to the bed
+
+        G0 X51 Z0.2 F8000 ; wipe, move quickly away from the bed
+
+
+        G92 E0
+
+        M221 S100 ; set flow to 100%'
+      toolchange_gcode: '; MANUAL_COLOUR_TOOLCHANGE
+
+        M600
+
+        G1 E0.3 F1500 ; prime after manual colour change'
+    features:
+      based_id: sDaINpExS2qxgbDnvceoEA
+      based_root_id: iTdBKPPOQeaxwd5slYDppg
